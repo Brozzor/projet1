@@ -1,0 +1,16 @@
+{
+  "name": "suivi-de-projet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "custom-electron-titlebar": "^3.2.1",
+    "electron": "^7.1.9"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "electron ."
+  },
+  "author": "romain",
+  "license": "GPL-3.0"
+}
