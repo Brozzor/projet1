@@ -1,4 +1,4 @@
-let game = new Phaser.Game(600, 600);
+let game = new Phaser.Game(600, 600,Phaser.AUTO,'content');
 let speed = 300;
 let southPark = {
     preload: function() {
@@ -58,6 +58,7 @@ let southPark = {
         this.badGuys.add(badGuy);
 
         this.score += 20;
+        document.querySelector('#score').innerHTML = this.score;
         this.labelScore.text = this.score;
 
         badGuy.checkWorldBounds = true;
