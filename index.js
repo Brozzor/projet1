@@ -12,6 +12,7 @@ function createWindow () {
       title: 'South Park by Romain et Anthon',
       movable: true,
       frame: false,
+      fullscreen: false,
       backgroundColor: "#111"
     });
 

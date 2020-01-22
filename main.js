@@ -15,7 +15,7 @@ let southPark = {
         game.add.sprite(0, 0, "background" + entierAleatoire(1, 3));
 
         this.player = game.add.sprite(300, 500, 'player');
-        this.player.anchor.set(0.5);
+        this.player.anchor.set(0.35);
         game.physics.arcade.enable(this.player);
         this.cursors = game.input.keyboard.createCursorKeys();
 
@@ -23,7 +23,6 @@ let southPark = {
 
         this.timer = game.time.events.loop(200, this.addBadGuy, this);
         this.score = 0;
-        this.labelScore = game.add.text(20, 20, "0", {font: "30px Arial", fill: "#fff"})
     },
     update: function() {
         game.physics.arcade.overlap(this.player, this.badGuys, this.restartGame, null, this);
@@ -59,7 +58,6 @@ let southPark = {
 
         this.score += 20;
         document.querySelector('#score').innerHTML = this.score;
-        this.labelScore.text = this.score;
 
         badGuy.checkWorldBounds = true;
         badGuy.outOfBoundsKill = true;

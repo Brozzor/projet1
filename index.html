@@ -1,25 +1,60 @@
 <!doctype html>
 <html lang="fr">
+
 <head>
   <meta charset="utf-8">
   <title>South Park</title>
   <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
-    <body style="-webkit-app-region: drag">
-      <div id="electron-titlebar" class="drag"></div>
 
-  <div id="main">
-    <h1 id="score">Hello World!</h1>
-    <div id='content'></div>
+<body><br>
+  <div class="col-lg-12">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card text-white" style="background: #202225">
+          <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+      </div>
+    
+    <div class="col-sm-6">
+      <div class="row" style="text-align: center">
+      <div class="col-sm-6">
+        <div class="card" style="background: #202225">
+          <div class="card-body">
+            <h3 class="card-title text-white">Score : <span id="score"></span></h3>
+          </div>
+        </div><br>
+      </div>
+      <div class="col-sm-6">
+        <div class="card" style="background: #202225">
+          <div class="card-body">
+            <h3 class="card-title text-white">Point de vie : <span id="life"> /5</span></h3>
+          </div>
+        </div><br>
+      </div>
+        
+    </div>
+    <div class="card" style="background: #202225">
+      <div class="card-body">
+        <div id='content'></div>
+      </div>
+    </div>
+    
+    </div>
+    <div class="col-sm-4">
+
+    </div>
+  </ddiv>
   </div>
-
-  <script>
-    require('./renderer.js')
-  </script>
   <script type="text/javascript" src="phaser.min.js"></script>
   <script type="text/javascript" src="main.js"></script>
-    
-<body>
-  
+
+
 </body>
-</html>
+
+  </html>
