@@ -6,6 +6,7 @@
   <title>South Park</title>
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 </head>
 
 <body><br>
@@ -14,9 +15,8 @@
       <div class="col-sm-4">
         <div class="card text-white" style="background: #202225">
           <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <h5 class="card-title">Score des dernières parties</h5>
+            <p id="scoreboard" class="card-text"></p>
           </div>
         </div>
       </div>
@@ -53,8 +53,9 @@
   </div>
   <script type="text/javascript" src="phaser.min.js"></script>
   <script type="text/javascript" src="main.js"></script>
-
-
+  <script type="text/javascript">
+    var socket = io.connect();
+</script>
 </body>
 
   </html>

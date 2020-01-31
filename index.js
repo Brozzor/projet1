@@ -16,7 +16,7 @@ function createWindow () {
       backgroundColor: "#111"
     });
 
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/main.html`);
 
   mainWindow.on('closed', () => {
     mainWindow = null;
