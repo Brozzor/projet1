@@ -31,12 +31,16 @@ let io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
   
     socket.on('score', function (score) {
-        console.log('le score est : ' + score + socket.pseudo);
-
-        Math.round(score /= 100);
-
-        let sql = `UPDATE user SET money = money + '${score}' WHERE pseudo = '${socket.pseudo}'`;
+        
+        let sql = `SELECT * FROM user WHERE pseudo = '${socket.pseudo}'`;
+        conn.query(sql, function(err, rows, fields) {
+        sql = `INSERT INTO score(userid,score,date_input) VALUES('${rows[0].id}','${score}', NOW())`;
         conn.query(sql);
+        Math.round(score /= 100);
+        sql = `UPDATE user SET money = money + '${score}' WHERE pseudo = '${socket.pseudo}'`;
+        conn.query(sql);
+        socket.emit('money', rows[0].money);
+        });
     });	
     socket.on('pseudo', function (pseudo) {
         let sql = `SELECT count(*) as nb FROM user WHERE pseudo = '${pseudo}'`;
@@ -46,12 +50,26 @@ io.sockets.on('connection', function (socket) {
                {
                 let sql = `INSERT INTO user(pseudo,money) VALUES('${pseudo}','0')`;
                 conn.query(sql);
-                console.log('insertion du nouveau joueur' + socket.pseudo);
                }
             socket.pseudo = pseudo;
         });
     });	
 
+    socket.on('initial', function () {
+    let sql = `SELECT id,money FROM user WHERE pseudo = '${socket.pseudo}'`;
+        conn.query(sql, function(err, rows, fields) {
+            socket.emit('money', rows[0].money);
+        
+            sql = `SELECT score,date_input FROM score WHERE userid = '${rows[0].id}'`;
+            conn.query(sql, function(err, rows2, fields) {
+                for (var i = 0; i < rows2.length; i++) {
+
+                    socket.emit('scoreboard', rows2[i].score, rows2[i].date_input);
+                }
+               
+            });
+        });
+    });
 });
 
 

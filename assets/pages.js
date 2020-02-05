@@ -48,7 +48,7 @@ document.getElementById('bodyPage').innerHTML = `
   <div class="col-sm-6">
     <div class="card" style="background: #202225">
       <div class="card-body">
-        <h3 class="card-title text-white">Argent : <span id="life"> /5</span></h3>
+        <h3 class="card-title text-white">Argent : <span id="moneyDisplay"></span>$</h3>
       </div>
     </div><br>
   </div>

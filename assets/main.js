@@ -83,6 +83,7 @@ function receptionPseudo()
         if (pseudo != ''){
             socket.emit('pseudo', pseudo);
             play();
+            setTimeout(`socket.emit('initial') `, 500);
         }else{
             alert('Vous devez mettre un pseudo valide');
         }
@@ -92,3 +93,10 @@ function addScoreInPlayer(score)
     {
         socket.emit('score', score);
     }
+
+socket.on('money', function(nb) {
+        document.getElementById('moneyDisplay').innerHTML = `${nb}`;
+    });
+socket.on('scoreboard', function(score,date_input) {
+        document.getElementById('scoreboard').innerHTML += `${score} et ${date_input}`;
+    });
