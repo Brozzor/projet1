@@ -1,4 +1,5 @@
-let game = new Phaser.Game(600, 600,Phaser.AUTO,'content');
+function go(){
+game = new Phaser.Game(600, 600,Phaser.AUTO,'content');
 let speed = 300;
 let southPark = {
     preload: function() {
@@ -46,6 +47,7 @@ let southPark = {
         
     },
     restartGame: function(){
+        addScoreInPlayer(this.score);
         game.state.start('southPark');
     },
     addBadGuy: function(){
@@ -68,8 +70,25 @@ function entierAleatoire(min, max)
     {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-function initScoreboard(){
 
-}
+
+
 game.state.add('southPark', southPark);
 game.state.start('southPark');
+}
+
+function receptionPseudo()
+    {
+        pseudo = document.getElementById('inputPseudo').value;
+        if (pseudo != ''){
+            socket.emit('pseudo', pseudo);
+            play();
+        }else{
+            alert('Vous devez mettre un pseudo valide');
+        }
+    }
+
+function addScoreInPlayer(score)
+    {
+        socket.emit('score', score);
+    }
