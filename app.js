@@ -29,13 +29,16 @@ let io = require('socket.io').listen(server);
 
 
 io.sockets.on('connection', function (socket) {
-    socket.emit('message', 'Vous êtes bien connecté !');
   
     socket.on('score', function (score) {
-        console.log('le score est : ' + score);
+        console.log('le score est : ' + score + socket.pseudo);
+
+        Math.round(score /= 100);
+
+        let sql = `UPDATE user SET money = money + '${score}' WHERE pseudo = '${socket.pseudo}'`;
+        conn.query(sql);
     });	
     socket.on('pseudo', function (pseudo) {
-        console.log('son pseudo est ' + pseudo);
         let sql = `SELECT count(*) as nb FROM user WHERE pseudo = '${pseudo}'`;
         conn.query(sql, function(err, rows, fields) {
             if (err) throw err;
@@ -43,8 +46,9 @@ io.sockets.on('connection', function (socket) {
                {
                 let sql = `INSERT INTO user(pseudo,money) VALUES('${pseudo}','0')`;
                 conn.query(sql);
+                console.log('insertion du nouveau joueur' + socket.pseudo);
                }
-            
+            socket.pseudo = pseudo;
         });
     });	
 
