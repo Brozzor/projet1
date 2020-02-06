@@ -1,6 +1,6 @@
 function go() {
   game = new Phaser.Game(600, 600, Phaser.AUTO, "content");
-  let speed = 300;
+  let speed = 300; // vitesse de déplacement du joueur
   let southPark = {
     preload: function() {
       game.load.image("background2", "assets/fond.png");
@@ -106,3 +106,17 @@ socket.on("scoreboard", function(score, date_input) {
     i++;
   }
 });
+
+function paused()
+{
+  if (game.paused == false){
+    game.paused = true;
+    document.getElementById('stateBtn').className = 'btn btn-success';
+    document.getElementById('stateBtn').innerText = 'play';
+  }else{
+    game.paused = false;
+    document.getElementById('stateBtn').className = 'btn btn-warning';
+    document.getElementById('stateBtn').innerText = 'pause';
+  }
+  
+}

@@ -31,6 +31,16 @@ function play() {
     <div class="card text-white" style="background: #202225">
       <div class="card-body">
       <center>
+        <button onclick="base()" class="btn btn-danger">Quitter</button>
+        <button onclick="shop()" class="btn btn-dark">Boutique</button>
+        <button onclick="tuto()" class="btn btn-light">Tutoriel</button>
+        <button id="stateBtn" onclick="paused()" class="btn btn-warning">Pause</button>
+      </center>
+      </div>
+    </div><br>
+    <div class="card text-white" style="background: #202225">
+      <div class="card-body">
+      <center>
         <h5 class="card-title">Score des dernières parties</h5><br>
         <p id="scoreboard" class="card-text text-white"></p>
       </center>
