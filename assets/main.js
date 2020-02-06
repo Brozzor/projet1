@@ -15,13 +15,13 @@ function go() {
       game.add.sprite(0, 0, "background" + entierAleatoire(1, 3));
 
       this.player = game.add.sprite(300, 500, "player");
-      this.player.anchor.set(0.35);
+      this.player.anchor.set(0.30);
       game.physics.arcade.enable(this.player);
       this.cursors = game.input.keyboard.createCursorKeys();
 
       this.badGuys = game.add.group();
 
-      this.timer = game.time.events.loop(200, this.addBadGuy, this);
+      this.timer = game.time.events.loop(300, this.addBadGuy, this);
       this.score = 0;
     },
     update: function() {
@@ -91,10 +91,18 @@ function addScoreInPlayer(score) {
 socket.on("money", function(nb) {
   document.getElementById("moneyDisplay").innerHTML = `${nb}`;
 });
+
 socket.on("scoreboard", function(score, date_input) {
   let i = 0;
+  document.getElementById("scoreboard").innerHTML = null;
   while (i < score.length) {
-    document.getElementById("scoreboard").innerHTML += `<p>${score[i]} et ${date_input[i]}</p><hr>`;
+    let t = Date.now() - Date.parse(`'${date_input[i]}'`);
+    let s = Math.floor(t / 1000) % 60;
+    let m = Math.floor(t / 60000) % 60;
+    let displayTime = `<p>${score[i]} il y a ${m} minutes et ${s} secondes</p><hr>`;
+    if (m == '0'){displayTime = `<p>${score[i]} il y a ${s} secondes</p><hr>`;}
+
+    document.getElementById("scoreboard").innerHTML += displayTime;
     i++;
   }
 });

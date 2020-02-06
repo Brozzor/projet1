@@ -30,8 +30,10 @@ function play() {
   <div class="col-sm-4">
     <div class="card text-white" style="background: #202225">
       <div class="card-body">
-        <h5 class="card-title">Score des dernières parties</h5>
-        <p id="scoreboard" "card-text" class="card-text"></p>
+      <center>
+        <h5 class="card-title">Score des dernières parties</h5><br>
+        <p id="scoreboard" class="card-text text-white"></p>
+      </center>
       </div>
     </div>
   </div>

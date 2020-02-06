@@ -54,6 +54,9 @@ io.sockets.on("connection", function(socket) {
   });
 
   socket.on("initial", function() {
+    if (socket.pseudo == undefined) {
+        return false;
+      }
     socket.scoreboard = [];
     socket.scoreboardDate = [];
     let sql = `SELECT id,money FROM user WHERE pseudo = '${socket.pseudo}'`;
