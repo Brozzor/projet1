@@ -1,102 +1,100 @@
-function go(){
-game = new Phaser.Game(600, 600,Phaser.AUTO,'content');
-let speed = 300;
-let southPark = {
+function go() {
+  game = new Phaser.Game(600, 600, Phaser.AUTO, "content");
+  let speed = 300;
+  let southPark = {
     preload: function() {
-        game.load.image('background2', 'assets/fond.png');
-        game.load.image('background1', 'assets/bg1.png');
-        game.load.image('background3', 'assets/bg3.png');
-        game.load.image('player', 'assets/player.png');
-        game.load.image('badguy', 'assets/kyle.png');
+      game.load.image("background2", "assets/fond.png");
+      game.load.image("background1", "assets/bg1.png");
+      game.load.image("background3", "assets/bg3.png");
+      game.load.image("player", "assets/player.png");
+      game.load.image("badguy", "assets/kyle.png");
     },
     create: function() {
+      game.physics.startSystem(Phaser.Physics.ARCADE);
+      test = 1;
+      game.add.sprite(0, 0, "background" + entierAleatoire(1, 3));
 
-        game.physics.startSystem(Phaser.Physics.ARCADE);
-        test = 1;
-        game.add.sprite(0, 0, "background" + entierAleatoire(1, 3));
+      this.player = game.add.sprite(300, 500, "player");
+      this.player.anchor.set(0.35);
+      game.physics.arcade.enable(this.player);
+      this.cursors = game.input.keyboard.createCursorKeys();
 
-        this.player = game.add.sprite(300, 500, 'player');
-        this.player.anchor.set(0.35);
-        game.physics.arcade.enable(this.player);
-        this.cursors = game.input.keyboard.createCursorKeys();
+      this.badGuys = game.add.group();
 
-        this.badGuys = game.add.group();
-
-        this.timer = game.time.events.loop(200, this.addBadGuy, this);
-        this.score = 0;
+      this.timer = game.time.events.loop(200, this.addBadGuy, this);
+      this.score = 0;
     },
     update: function() {
-        game.physics.arcade.overlap(this.player, this.badGuys, this.restartGame, null, this);
-        this.player.body.velocity.x = 0;
-        this.player.body.velocity.y = 0;
-        if (this.cursors.left.isDown){
-            this.player.body.velocity.x = -speed;
-        }   
-        if (this.cursors.right.isDown){
-            this.player.body.velocity.x = speed;
-        }
-        if (this.cursors.up.isDown){
-            this.player.body.velocity.y = -speed;
-        }   
-        if (this.cursors.down.isDown){
-            this.player.body.velocity.y = speed;
-        }
-        if (this.player.inWorld == false){
-            this.restartGame();
-        }
-        
+      game.physics.arcade.overlap(this.player, this.badGuys, this.restartGame, null, this);
+      this.player.body.velocity.x = 0;
+      this.player.body.velocity.y = 0;
+      if (this.cursors.left.isDown) {
+        this.player.body.velocity.x = -speed;
+      }
+      if (this.cursors.right.isDown) {
+        this.player.body.velocity.x = speed;
+      }
+      if (this.cursors.up.isDown) {
+        this.player.body.velocity.y = -speed;
+      }
+      if (this.cursors.down.isDown) {
+        this.player.body.velocity.y = speed;
+      }
+      if (this.player.inWorld == false) {
+        this.restartGame();
+      }
     },
-    restartGame: function(){
-        addScoreInPlayer(this.score);
-        game.state.start('southPark');
+    restartGame: function() {
+      addScoreInPlayer(this.score);
+      game.state.start("southPark");
     },
-    addBadGuy: function(){
-        let position = Math.floor(Math.random() * 550) + 1;
-        let badGuy = game.add.sprite(position, -50, 'badguy');
-        game.physics.arcade.enable(badGuy);
-        badGuy.body.gravity.y = 200;
+    addBadGuy: function() {
+      let position = Math.floor(Math.random() * 550) + 1;
+      let badGuy = game.add.sprite(position, -50, "badguy");
+      game.physics.arcade.enable(badGuy);
+      badGuy.body.gravity.y = 200;
 
-        this.badGuys.add(badGuy);
+      this.badGuys.add(badGuy);
 
-        this.score += 20;
-        document.querySelector('#score').innerHTML = this.score;
+      this.score += 20;
+      document.querySelector("#score").innerHTML = this.score;
 
-        badGuy.checkWorldBounds = true;
-        badGuy.outOfBoundsKill = true;
+      badGuy.checkWorldBounds = true;
+      badGuy.outOfBoundsKill = true;
     }
-};
+  };
 
-function entierAleatoire(min, max)
-    {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+  function entierAleatoire(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
-
-
-game.state.add('southPark', southPark);
-game.state.start('southPark');
+  game.state.add("southPark", southPark);
+  game.state.start("southPark");
 }
 
-function receptionPseudo()
-    {
-        pseudo = document.getElementById('inputPseudo').value;
-        if (pseudo != ''){
-            socket.emit('pseudo', pseudo);
-            play();
-            setTimeout(`socket.emit('initial') `, 500);
-        }else{
-            alert('Vous devez mettre un pseudo valide');
-        }
-    }
+function receptionPseudo() {
+  pseudo = document.getElementById("inputPseudo").value;
+  if (pseudo != "") {
+    socket.emit("pseudo", pseudo);
+    play();
+    setTimeout(`socket.emit('initial') `, 500);
+  } else {
+    alert("Vous devez mettre un pseudo valide");
+  }
+}
 
-function addScoreInPlayer(score)
-    {
-        socket.emit('score', score);
-    }
+function addScoreInPlayer(score) {
+  socket.emit("score", score);
+  socket.emit("initial");
+}
 
-socket.on('money', function(nb) {
-        document.getElementById('moneyDisplay').innerHTML = `${nb}`;
-    });
-socket.on('scoreboard', function(score,date_input) {
-        document.getElementById('scoreboard').innerHTML += `${score} et ${date_input}`;
-    });
+socket.on("money", function(nb) {
+  document.getElementById("moneyDisplay").innerHTML = `${nb}`;
+});
+socket.on("scoreboard", function(score, date_input) {
+  let i = 0;
+  while (i < score.length) {
+    document.getElementById("scoreboard").innerHTML += `<p>${score[i]} et ${date_input[i]}</p><hr>`;
+    i++;
+  }
+});

@@ -1,5 +1,5 @@
-function base(){
-    document.getElementById('bodyPage').innerHTML = `
+function base() {
+  document.getElementById("bodyPage").innerHTML = `
 <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -23,15 +23,15 @@ function base(){
   </div>`;
 }
 
-function play(){
-document.getElementById('bodyPage').innerHTML = `
+function play() {
+  document.getElementById("bodyPage").innerHTML = `
 <div class="col-lg-12">
 <div class="row">
   <div class="col-sm-4">
     <div class="card text-white" style="background: #202225">
       <div class="card-body">
         <h5 class="card-title">Score des dernières parties</h5>
-        <p id="scoreboard" class="card-text"></p>
+        <p id="scoreboard" "card-text" class="card-text"></p>
       </div>
     </div>
   </div>
@@ -67,5 +67,5 @@ document.getElementById('bodyPage').innerHTML = `
 </div>
 </div>
 `;
-go();
+  go();
 }
