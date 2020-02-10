@@ -1,7 +1,7 @@
 function go() {
   game = new Phaser.Game(600, 600, Phaser.AUTO, "content");
   let speed = 300; // vitesse de déplacement du joueur
-  let southPark = {
+  let northPark = {
     preload: function() {
       game.load.image("background2", "assets/fond.png");
       game.load.image("background1", "assets/bg1.png");
@@ -25,7 +25,7 @@ function go() {
       this.score = 0;
     },
     update: function() {
-      game.physics.arcade.overlap(this.player, this.badGuys, this.restartGame, null, this);
+      game.physics.arcade.overlap(this.player, this.badGuys, this.endGame, null, this);
       this.player.body.velocity.x = 0;
       this.player.body.velocity.y = 0;
       if (this.cursors.left.isDown) {
@@ -41,12 +41,17 @@ function go() {
         this.player.body.velocity.y = speed;
       }
       if (this.player.inWorld == false) {
-        this.restartGame();
+        this.endGame();
       }
     },
     restartGame: function() {
       addScoreInPlayer(this.score);
-      game.state.start("southPark");
+      game.state.start("northPark");
+    },
+    endGame: function() {
+      addScoreInPlayer(this.score);
+      game.destroy();
+      end();
     },
     addBadGuy: function() {
       let position = Math.floor(Math.random() * 550) + 1;
@@ -57,7 +62,8 @@ function go() {
       this.badGuys.add(badGuy);
 
       this.score += 20;
-      document.querySelector("#score").innerHTML = this.score;
+      if (document.querySelector("#score").innerHTML != null){document.querySelector("#score").innerHTML = this.score;}
+      
 
       badGuy.checkWorldBounds = true;
       badGuy.outOfBoundsKill = true;
@@ -68,8 +74,8 @@ function go() {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  game.state.add("southPark", southPark);
-  game.state.start("southPark");
+  game.state.add("northPark", northPark);
+  game.state.start("northPark");
 }
 
 function receptionPseudo() {
@@ -77,7 +83,7 @@ function receptionPseudo() {
   if (pseudo != "") {
     socket.emit("pseudo", pseudo);
     play();
-    setTimeout(`socket.emit('initial') `, 500);
+    //setTimeout(`socket.emit('initial') `, 500);
   } else {
     alert("Vous devez mettre un pseudo valide");
   }
@@ -85,11 +91,12 @@ function receptionPseudo() {
 
 function addScoreInPlayer(score) {
   socket.emit("score", score);
-  socket.emit("initial");
+ // socket.emit("initial");
 }
 
-socket.on("money", function(nb) {
+socket.on("money", function(nb,score2) {
   document.getElementById("moneyDisplay").innerHTML = `${nb}`;
+  document.getElementById("score").innerHTML = `${score2}`;
 });
 
 socket.on("scoreboard", function(score, date_input) {

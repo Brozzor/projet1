@@ -35,10 +35,11 @@ io.sockets.on("connection", function(socket) {
     conn.query(sql, function(err, rows, fields) {
       sql = `INSERT INTO score(userid,score,date_input) VALUES('${rows[0].id}','${score}', NOW())`;
       conn.query(sql);
+      let scorePersistent = score;
       Math.round((score /= 100));
       sql = `UPDATE user SET money = money + '${score}' WHERE pseudo = '${socket.pseudo}'`;
       conn.query(sql);
-      socket.emit("money", rows[0].money);
+      socket.emit("money", rows[0].money, scorePersistent);
     });
   });
   socket.on("pseudo", function(pseudo) {
