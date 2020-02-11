@@ -94,9 +94,40 @@ function addScoreInPlayer(score) {
  // socket.emit("initial");
 }
 
+function initShop() {
+
+  let i = 0;
+  
+  let maps = {
+    name: ['terre', 'espace', 'mars', 'neptune'],
+    tarif: ['0', '1000', '1500', '5000'] 
+};
+
+  while (i < 4){
+  document.getElementById("skins").innerHTML += `
+  <tr>
+          <th><img src="/assets/${i+1}.png"></img></th>
+          <td>1000</td>
+          <td><button id="skinBtn" value="${i}" class="btn btn-warning">Acheter</button></td>
+        </tr>`;
+  
+  document.getElementById("maps").innerHTML += `
+  <tr>
+    <th>${maps.name[i]}</th>
+    <td>${maps.tarif[i]}</td>
+    <td><button id="mapBtn" value="${i}" class="btn btn-warning">Acheter</button></td>
+  </tr>`;
+  i++;
+  }
+}
+
 socket.on("money", function(nb,score2) {
   document.getElementById("moneyDisplay").innerHTML = `${nb}`;
   document.getElementById("score").innerHTML = `${score2}`;
+});
+
+socket.on("moneyDisplay", function(nb,score2) {
+  document.getElementById("moneyDisplay").innerHTML = `${nb}`;
 });
 
 socket.on("scoreboard", function(score, date_input) {

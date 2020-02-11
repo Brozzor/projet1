@@ -186,3 +186,73 @@ function end() {
 </div>
   `;
 }
+
+function shop() {
+  socket.emit("justMoney");
+  
+  document.getElementById("bodyPage").innerHTML = `
+  <div class="col-lg-12">
+<div class="row">
+<div class="col-sm-12">
+    <div class="card" style="background: #202225">
+      <div class="card-body">
+        <center><h3 class="card-title text-white">Argent : <span id="moneyDisplay"></span>$</h3></center>
+        
+      </div>
+    </div><br>
+  </div>
+
+<div class="col-sm-12">
+  <div class="row" style="text-align: center">
+  <div class="col-sm-6">
+    <div class="card" style="background: #202225">
+      <div class="card-body">
+        <h3 class="card-title text-white">Skins</h3>
+        <table  class="table text-white">
+        <thead>
+        <tr>
+          <th scope="col">Image</th>
+          <th scope="col">Prix</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody id="skins">
+        
+      </tbody>
+</table>
+      </div>
+    </div><br>
+  </div>
+  <div class="col-sm-6">
+    <div class="card" style="background: #202225">
+      <div class="card-body">
+        <h3 class="card-title text-white">Maps</h3>
+        <table class="table text-white">
+        <thead>
+  <tr>
+    <th scope="col">Style</th>
+    <th scope="col">Prix</th>
+    <th scope="col"></th>
+  </tr>
+</thead>
+<tbody id="maps">
+  
+</tbody>
+</table>
+      </div>
+    </div><br>
+  </div>
+
+  
+</div>
+
+</div>
+
+<div class="col-sm-4">
+
+</div>
+</div>
+</div>
+  `;
+  initShop();
+}

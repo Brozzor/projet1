@@ -42,6 +42,14 @@ io.sockets.on("connection", function(socket) {
       socket.emit("money", rows[0].money, scorePersistent);
     });
   });
+
+  socket.on("justMoney", function() {
+    let sql = `SELECT money FROM user WHERE pseudo = '${socket.pseudo}'`;
+    conn.query(sql, function(err, rows, fields) {    
+      socket.emit("moneyDisplay", rows[0].money);
+    });
+  });
+
   socket.on("pseudo", function(pseudo) {
     let sql = `SELECT count(*) as nb FROM user WHERE pseudo = '${pseudo}'`;
     conn.query(sql, function(err, rows, fields) {
