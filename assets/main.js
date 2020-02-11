@@ -3,7 +3,7 @@ function go() {
   let speed = 300; // vitesse de déplacement du joueur
   let northPark = {
     preload: function() {
-      game.load.image("background2", "assets/fond.png");
+      game.load.image("background2", "assets/bg2.png");
       game.load.image("background1", "assets/bg1.png");
       game.load.image("background3", "assets/bg3.png");
       game.load.image("player", "assets/player.png");
@@ -103,11 +103,15 @@ function initShop() {
     tarif: ['0', '1000', '1500', '5000'] 
 };
 
+let skins = {
+  tarif: ['0', '1000', '1500', '5000'] 
+};
+
   while (i < 4){
   document.getElementById("skins").innerHTML += `
   <tr>
           <th><img src="/assets/${i+1}.png"></img></th>
-          <td>1000</td>
+          <td>${skins.tarif[i]}</td>
           <td><button id="skinBtn" value="${i}" class="btn btn-warning">Acheter</button></td>
         </tr>`;
   
