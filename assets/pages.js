@@ -24,6 +24,7 @@ function base() {
 }
 
 function play() {
+  reloadInformation();
   document.getElementById("bodyPage").innerHTML = `
 <div class="col-lg-12">
 <div class="row">
@@ -189,7 +190,7 @@ function end() {
 
 function shop() {
   socket.emit("justMoney");
-  
+
   document.getElementById("bodyPage").innerHTML = `
   <div class="col-lg-12">
 <div class="row">

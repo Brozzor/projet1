@@ -1,3 +1,8 @@
+let information = {
+  mapUse: "1",
+  skinUse: "1"
+};
+
 function go() {
   game = new Phaser.Game(600, 600, Phaser.AUTO, "content");
   let speed = 300; // vitesse de déplacement du joueur
@@ -6,16 +11,21 @@ function go() {
       game.load.image("background2", "assets/bg2.png");
       game.load.image("background1", "assets/bg1.png");
       game.load.image("background3", "assets/bg3.png");
+      game.load.image("background4", "assets/bg4.png");
+      game.load.image("player1", "assets/1.png");
+      game.load.image("player2", "assets/2.png");
+      game.load.image("player3", "assets/3.png");
+      game.load.image("player4", "assets/4.png");
       game.load.image("player", "assets/player.png");
       game.load.image("badguy", "assets/kyle.png");
     },
     create: function() {
       game.physics.startSystem(Phaser.Physics.ARCADE);
       test = 1;
-      game.add.sprite(0, 0, "background" + entierAleatoire(1, 3));
+      game.add.sprite(0, 0, "background" + information.mapUse);
 
       this.player = game.add.sprite(300, 500, "player");
-      this.player.anchor.set(0.30);
+      this.player.anchor.set(0.3);
       game.physics.arcade.enable(this.player);
       this.cursors = game.input.keyboard.createCursorKeys();
 
@@ -62,8 +72,9 @@ function go() {
       this.badGuys.add(badGuy);
 
       this.score += 20;
-      if (document.querySelector("#score").innerHTML != null){document.querySelector("#score").innerHTML = this.score;}
-      
+      if (document.querySelector("#score").innerHTML != null) {
+        document.querySelector("#score").innerHTML = this.score;
+      }
 
       badGuy.checkWorldBounds = true;
       badGuy.outOfBoundsKill = true;
@@ -78,12 +89,15 @@ function go() {
   game.state.start("northPark");
 }
 
+function reloadInformation() {
+  socket.emit("mapAndSkin");
+}
+
 function receptionPseudo() {
   pseudo = document.getElementById("inputPseudo").value;
   if (pseudo != "") {
     socket.emit("pseudo", pseudo);
     play();
-    //setTimeout(`socket.emit('initial') `, 500);
   } else {
     alert("Vous devez mettre un pseudo valide");
   }
@@ -91,47 +105,51 @@ function receptionPseudo() {
 
 function addScoreInPlayer(score) {
   socket.emit("score", score);
- // socket.emit("initial");
+  // socket.emit("initial");
 }
 
 function initShop() {
-
   let i = 0;
-  
+
   let maps = {
-    name: ['terre', 'espace', 'mars', 'neptune'],
-    tarif: ['0', '1000', '1500', '5000'] 
-};
+    name: ["espace", "terre", "neptune", "lune"],
+    tarif: ["0", "1000", "5000", "5500"]
+  };
 
-let skins = {
-  tarif: ['0', '1000', '1500', '5000'] 
-};
+  let skins = {
+    tarif: ["0", "1000", "1500", "5000"]
+  };
 
-  while (i < 4){
-  document.getElementById("skins").innerHTML += `
+  while (i < 4) {
+    document.getElementById("skins").innerHTML += `
   <tr>
-          <th><img src="/assets/${i+1}.png"></img></th>
+          <th><img src="/assets/${i + 1}.png"></img></th>
           <td>${skins.tarif[i]}</td>
           <td><button id="skinBtn" value="${i}" class="btn btn-warning">Acheter</button></td>
         </tr>`;
-  
-  document.getElementById("maps").innerHTML += `
+
+    document.getElementById("maps").innerHTML += `
   <tr>
     <th>${maps.name[i]}</th>
     <td>${maps.tarif[i]}</td>
     <td><button id="mapBtn" value="${i}" class="btn btn-warning">Acheter</button></td>
   </tr>`;
-  i++;
+    i++;
   }
 }
 
-socket.on("money", function(nb,score2) {
+socket.on("money", function(nb, score2) {
   document.getElementById("moneyDisplay").innerHTML = `${nb}`;
   document.getElementById("score").innerHTML = `${score2}`;
 });
 
-socket.on("moneyDisplay", function(nb,score2) {
+socket.on("moneyDisplay", function(nb, score2) {
   document.getElementById("moneyDisplay").innerHTML = `${nb}`;
+});
+
+socket.on("chooseMapAndSkin", function(skin, map) {
+  information.mapUse = map;
+  information.skinUse = skin;
 });
 
 socket.on("scoreboard", function(score, date_input) {
@@ -142,23 +160,23 @@ socket.on("scoreboard", function(score, date_input) {
     let s = Math.floor(t / 1000) % 60;
     let m = Math.floor(t / 60000) % 60;
     let displayTime = `<p>${score[i]} il y a ${m} minutes et ${s} secondes</p><hr>`;
-    if (m == '0'){displayTime = `<p>${score[i]} il y a ${s} secondes</p><hr>`;}
+    if (m == "0") {
+      displayTime = `<p>${score[i]} il y a ${s} secondes</p><hr>`;
+    }
 
     document.getElementById("scoreboard").innerHTML += displayTime;
     i++;
   }
 });
 
-function paused()
-{
-  if (game.paused == false){
+function paused() {
+  if (game.paused == false) {
     game.paused = true;
-    document.getElementById('stateBtn').className = 'btn btn-success';
-    document.getElementById('stateBtn').innerText = 'play';
-  }else{
+    document.getElementById("stateBtn").className = "btn btn-success";
+    document.getElementById("stateBtn").innerText = "play";
+  } else {
     game.paused = false;
-    document.getElementById('stateBtn').className = 'btn btn-warning';
-    document.getElementById('stateBtn').innerText = 'pause';
+    document.getElementById("stateBtn").className = "btn btn-warning";
+    document.getElementById("stateBtn").innerText = "pause";
   }
-  
 }

@@ -45,8 +45,18 @@ io.sockets.on("connection", function(socket) {
 
   socket.on("justMoney", function() {
     let sql = `SELECT money FROM user WHERE pseudo = '${socket.pseudo}'`;
-    conn.query(sql, function(err, rows, fields) {    
+    conn.query(sql, function(err, rows, fields) {
       socket.emit("moneyDisplay", rows[0].money);
+    });
+  });
+
+  socket.on("mapAndSkin", function() {
+    let sql = `SELECT * FROM user WHERE pseudo = '${socket.pseudo}'`;
+    conn.query(sql, function(err, rows, fields) {
+      if (rows[0] == undefined) {
+        return false;
+      }
+      socket.emit("chooseMapAndSkin", rows[0].skins_use, rows[0].maps_use);
     });
   });
 
@@ -64,8 +74,8 @@ io.sockets.on("connection", function(socket) {
 
   socket.on("initial", function() {
     if (socket.pseudo == undefined) {
-        return false;
-      }
+      return false;
+    }
     socket.scoreboard = [];
     socket.scoreboardDate = [];
     let sql = `SELECT id,money FROM user WHERE pseudo = '${socket.pseudo}'`;
