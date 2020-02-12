@@ -12,11 +12,11 @@ function go() {
       game.load.image("background1", "assets/bg1.png");
       game.load.image("background3", "assets/bg3.png");
       game.load.image("background4", "assets/bg4.png");
-      game.load.image("player1", "assets/1.png");
+      game.load.image("player5", "assets/1.png");
       game.load.image("player2", "assets/2.png");
       game.load.image("player3", "assets/3.png");
       game.load.image("player4", "assets/4.png");
-      game.load.image("player", "assets/player.png");
+      game.load.image("player1", "assets/player.png");
       game.load.image("badguy", "assets/kyle.png");
     },
     create: function() {
@@ -24,7 +24,7 @@ function go() {
       test = 1;
       game.add.sprite(0, 0, "background" + information.mapUse);
 
-      this.player = game.add.sprite(300, 500, "player");
+      this.player = game.add.sprite(300, 500, "player" + information.skinUse);
       this.player.anchor.set(0.3);
       game.physics.arcade.enable(this.player);
       this.cursors = game.input.keyboard.createCursorKeys();
